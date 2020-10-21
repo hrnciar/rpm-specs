@@ -114,7 +114,7 @@ nosetests-%{python3_version} -i test_datasets
 %files -n python3-%{pypi_name}
 %license LICENSE
 %doc README.rst AUTHORS.rst
-%{python3_sitelib}/%{pypi_name}-%{version}b0-py3.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}b0-py%{python3_version}.egg-info
 %{python3_sitelib}/%{pypi_name}
 
 %files doc

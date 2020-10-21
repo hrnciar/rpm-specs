@@ -92,7 +92,7 @@ PYTHONPATH=. py.test-3
 %files -n python3-%{srcname}
 %license LICENSE
 %doc README.md examples
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{srcname}/
 
 %if %{with_py2}

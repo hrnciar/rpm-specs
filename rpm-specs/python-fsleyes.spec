@@ -118,7 +118,7 @@ xvfb-run -s "-screen 0 640x480x24" pytest-3
 %{_bindir}/render
 %{_bindir}/fsleyes_unfiltered
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %files doc
 %license LICENSE COPYRIGHT

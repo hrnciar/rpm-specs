@@ -148,7 +148,7 @@ export TEST_WITH_XVFB=True
 %{_bindir}/dipy_track_pft
 %{_bindir}/dipy_split
 %{python3_sitearch}/%{srcname}
-%{python3_sitearch}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %files doc
 %license LICENSE

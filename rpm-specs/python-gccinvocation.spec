@@ -51,7 +51,7 @@ extract data of interest e.g. include paths, defines, etc.
 
 %files -n python3-gccinvocation
 %doc README.rst lgpl-2.1.txt
-%{python3_sitelib}/gccinvocation-%{version}-py3.?.egg-info
+%{python3_sitelib}/gccinvocation-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/gccinvocation.py
 %{python3_sitelib}/__pycache__/gccinvocation.cpython-*.py[co]
 

@@ -61,7 +61,7 @@ desktop-file-install                              \
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.*
 %{_datadir}/appdata/%{name}.appdata.xml
-%{python3_sitelib}/simple_ccsm-%{version}-py3.?.egg-info
+%{python3_sitelib}/simple_ccsm-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

@@ -63,7 +63,7 @@ rm -rf %{buildroot}%{python3_sitelib}/%{srcname}/test_data
 %doc README.rst CHANGES.txt
 %license LICENSE.txt
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

@@ -52,7 +52,7 @@ rm -rfv %{srcname}.egg-info
 %files -n python3-%{srcname}
 %license LICENSE
 %doc README.rst
-%{python3_sitearch}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/%{srcname}
 
 %changelog

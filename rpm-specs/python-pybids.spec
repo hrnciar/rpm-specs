@@ -87,7 +87,7 @@ PYTHONPATH=. py.test-3 -s -v -k-test_split .
 %doc README.md
 %license LICENSE
 %{_bindir}/pybids
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/bids/
 
 %files doc

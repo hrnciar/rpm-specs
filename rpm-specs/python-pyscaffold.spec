@@ -127,7 +127,7 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} pytest-3 . -k "not test_update_versio
 %files -n python3-%{pypi_name}
 %license LICENSE.txt
 %doc README.rst AUTHORS.rst CHANGELOG.rst CONTRIBUTING.rst
-%{python3_sitelib}/%{pretty_name}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{pretty_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{pypi_name}
 %{_bindir}/putup
 

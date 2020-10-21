@@ -172,7 +172,7 @@ popd
 %if %{with python3}
 %files -n python3-nototools
 %{python3_sitelib}/nototools
-%{python3_sitelib}/nototools-0.0.1-py3.?.egg-info
+%{python3_sitelib}/nototools-0.0.1-py%{python3_version}.egg-info
 %{python3_sitelib}/third_party
 %endif # with python3
 

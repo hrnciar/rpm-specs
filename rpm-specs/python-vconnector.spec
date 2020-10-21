@@ -73,7 +73,7 @@ src/%{srcname}-cli -v
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{srcname}/
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info/
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info/
 %{_bindir}/%{srcname}-cli
 %{_mandir}/man1/%{srcname}-cli.1*
 

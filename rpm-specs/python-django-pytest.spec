@@ -51,7 +51,7 @@ rm -rf %{pypi_name}.egg-info
 %files -n python3-%{pypi_name}
 %doc LICENSE.txt README.md
 %{python3_sitelib}/django_pytest/
-%{python3_sitelib}/django_pytest-%{version}-py3.?.egg-info
+%{python3_sitelib}/django_pytest-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-26

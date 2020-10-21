@@ -216,7 +216,7 @@ rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/sample.pl
 %{python3_sitearch}/__pycache__/marisa*
 %{python3_sitearch}/_marisa*.so
 %{python3_sitearch}/marisa.py
-%{python3_sitearch}/marisa-0.0.0-py3.?.egg-info
+%{python3_sitearch}/marisa-0.0.0-py%{python3_version}.egg-info
 
 %files ruby
 %{ruby_vendorarchdir}/marisa.so

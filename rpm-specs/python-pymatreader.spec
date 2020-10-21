@@ -86,7 +86,7 @@ nosetests-%{python3_version}
 %files -n python3-%{srcname}
 %license LICENSE
 %doc README.md
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{srcname}
 
 %files doc

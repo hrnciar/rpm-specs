@@ -61,7 +61,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/fusion-icon.desktop
 %{_datadir}/appdata/fusion-icon.appdata.xml
 %{_datadir}/icons/hicolor/*/apps/fusion-icon.png
 %{_datadir}/icons/hicolor/scalable/apps/fusion-icon.svg
-%{python3_sitelib}/fusion_icon-%{version}-py3.?.egg-info
+%{python3_sitelib}/fusion_icon-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/FusionIcon/interface_gtk/
 %{python3_sitelib}/FusionIcon/interface_qt/
 

@@ -88,7 +88,7 @@ popd
 %doc AUTHORS.rst CHANGELOG.rst README.rst PKG-INFO docs/*.rst docs/code_examples
 %license LICENSE LICENSE.mit LICENSE.apache2
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %if 0%{?with_python3_other}

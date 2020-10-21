@@ -57,7 +57,7 @@ done
 install -p -Dm644 icons/%{name}.svg $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %files
-%{python3_sitearch}/%{name}-%{version}-py3.?.egg-info
+%{python3_sitearch}/%{name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/%{name}/
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg

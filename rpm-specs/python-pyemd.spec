@@ -64,7 +64,7 @@ pytest-%{python3_version} test
 %license LICENSE
 %doc README.rst
 %{python3_sitearch}/%{srcname}
-%{python3_sitearch}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-9

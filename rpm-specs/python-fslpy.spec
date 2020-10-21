@@ -128,7 +128,7 @@ pytest-3 tests  -m "not longtest" \
 %license LICENSE COPYRIGHT
 %doc README.rst
 %{python3_sitelib}/fsl
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{_bindir}/atlasq
 %{_bindir}/atlasquery
 %{_bindir}/fsl_apply_x5

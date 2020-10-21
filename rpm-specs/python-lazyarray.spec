@@ -138,7 +138,7 @@ nosetests-%{python3_version}
 %files -n python3-%{pypi_name}
 %license LICENSE
 %doc changelog.txt README.rst
-%{python3_sitelib}/%{pypi_name}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/__pycache__/%{pypi_name}*
 %{python3_sitelib}/%{pypi_name}*.py
 

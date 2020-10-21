@@ -295,7 +295,7 @@ find %{buildroot} -name '*.la' -or -name '*.a' | xargs rm -f
 %files	python3
 %doc AUTHORS ChangeLog
 %license COPYING.Boost
-%{python3_sitearch}/python_libtorrent-%{version}-py3.?.egg-info
+%{python3_sitearch}/python_libtorrent-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/libtorrent.cpython-*.so
 %endif # with python3
 

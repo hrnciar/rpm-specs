@@ -42,7 +42,7 @@ rm -frv %{srcname}.egg-info
 %files -n python3-%{srcname}
 %license LICENSE
 %doc README.rst AUTHORS.rst
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info/
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info/
 %{python3_sitelib}/%{srcname}.py
 %{python3_sitelib}/__pycache__/%{srcname}.*
 %{_bindir}/%{srcname}

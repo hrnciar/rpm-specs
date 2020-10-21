@@ -54,7 +54,7 @@ sed -i 's/"httpretty<0.8.7",/"httpretty",/' setup.py
 %files -n python3-%{srcname}
 %doc README.markdown examples/
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

@@ -59,7 +59,7 @@ rm -rf xdot.egg-info
 %license LICENSE.txt
 %{_bindir}/xdot
 %{python3_sitelib}/xdot
-%{python3_sitelib}/xdot-%{version}-py3.?.egg-info
+%{python3_sitelib}/xdot-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

@@ -195,7 +195,7 @@ popd
 %files -n python3-%{srcname}
 %license %{pretty_name}-%{version}/LICENSE
 %{python3_sitearch}/%{srcname}
-%{python3_sitearch}/%{pretty_name}-%{version}-py3.?.egg-info
+%{python3_sitearch}/%{pretty_name}-%{version}-py%{python3_version}.egg-info
 %doc %{pretty_name}-%{version}/README.rst
 
 %files doc

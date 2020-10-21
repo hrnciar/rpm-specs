@@ -68,7 +68,7 @@ rm -fr %{tarball_name}.egg-info
 
 %files -n python3-elasticsearch
 %{python3_sitelib}/%{tarball_name}
-%{python3_sitelib}/%{tarball_name}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{tarball_name}-%{version}-py%{python3_version}.egg-info
 %doc README
 %license LICENSE
 

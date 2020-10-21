@@ -92,7 +92,7 @@ py.test-%{python3_version}
 %license LICENSE.md
 %doc README.md CHANGELOG.md CACHING.rst redis.conf
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %files doc
 %license LICENSE.md

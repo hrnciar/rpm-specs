@@ -41,7 +41,7 @@ rm -r tempdir.egg-info
 %files -n python3-%{pname}
 %license docs/license.rst
 %doc docs/use.rst
-%{python3_sitelib}/%{pname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{pname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/tempdir.py
 

@@ -70,7 +70,7 @@ sed -i '2 a # cython: language_level=3' gdist.pyx
 %files -n python3-%{pypi_name}
 %license LICENSE
 %doc README.rst
-%{python3_sitearch}/%{module_name}-%{version}-py3.?.egg-info
+%{python3_sitearch}/%{module_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/gdist.cpython-*.so
 
 %changelog

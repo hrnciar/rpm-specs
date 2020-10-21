@@ -97,7 +97,7 @@ python3 -m unittest discover
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %if 0%{?with_docs}

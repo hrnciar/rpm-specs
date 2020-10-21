@@ -87,7 +87,7 @@ xvfb-run -a -s "-screen 0 1920x1200x24" pytest-3 tests --ignore=tests/test_autot
 %license LICENSE COPYRIGHT
 %doc README.rst
 %{python3_sitelib}/fsleyes_widgets/
-%{python3_sitelib}/fsleyes_widgets-%{version}-py3.?.egg-info
+%{python3_sitelib}/fsleyes_widgets-%{version}-py%{python3_version}.egg-info
 
 %files doc
 %license LICENSE COPYRIGHT

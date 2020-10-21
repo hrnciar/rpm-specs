@@ -51,7 +51,7 @@ cp %{SOURCE2} .
 %files -n python3-%{srcname}
 %license LICENSE
 %doc README.md
-%{python3_sitelib}/bids_validator-%{version}-py3.?.egg-info
+%{python3_sitelib}/bids_validator-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/bids_validator
 
 %changelog

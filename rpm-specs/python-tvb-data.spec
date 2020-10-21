@@ -69,7 +69,7 @@ sed -i 's/1.5.10/1.5.9/' setup.py
 %files -n python3-%{pypi_name}
 %license LICENSE
 %doc README.rst
-%{python3_sitelib}/%{module_name}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{module_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{module_name}
 
 %changelog

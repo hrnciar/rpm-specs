@@ -95,7 +95,7 @@ xvfb-run pytest-3 tests --ignore=tests/test_widget_boolean.py --ignore=tests/tes
 %license LICENSE COPYRIGHT
 %doc README.rst
 %{python3_sitelib}/fsleyes_props/
-%{python3_sitelib}/fsleyes_props-%{version}-py3.?.egg-info
+%{python3_sitelib}/fsleyes_props-%{version}-py%{python3_version}.egg-info
 
 %files doc
 %license LICENSE COPYRIGHT

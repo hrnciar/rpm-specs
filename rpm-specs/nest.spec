@@ -540,10 +540,10 @@ export MPI_SITEARCH=$MPI_PYTHON3_SITEARCH
 
 %files -n python3-%{name}
 %{python3_sitearch}/%{name}
-%{python3_sitearch}/PyNEST-nest_%{version}-py3.?.egg-info
-%{python3_sitearch}/Topology-nest_%{version}-py3.?.egg-info
+%{python3_sitearch}/PyNEST-nest_%{version}-py%{python3_version}.egg-info
+%{python3_sitearch}/Topology-nest_%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/ConnPlotter
-%{python3_sitelib}/ConnPlotter-0.7a-py3.?.egg-info
+%{python3_sitelib}/ConnPlotter-0.7a-py%{python3_version}.egg-info
 
 %if %{with mpich}
 %files mpich
@@ -575,8 +575,8 @@ export MPI_SITEARCH=$MPI_PYTHON3_SITEARCH
 %files -n python3-%{name}-mpich
 %license LICENSE
 %{python3_sitearch}/mpich/%{name}
-%{python3_sitearch}/mpich/PyNEST-nest_%{version}-py3.?.egg-info
-%{python3_sitearch}/mpich/Topology-nest_%{version}-py3.?.egg-info
+%{python3_sitearch}/mpich/PyNEST-nest_%{version}-py%{python3_version}.egg-info
+%{python3_sitearch}/mpich/Topology-nest_%{version}-py%{python3_version}.egg-info
 %endif
 
 %if %{with openmpi}
@@ -610,8 +610,8 @@ export MPI_SITEARCH=$MPI_PYTHON3_SITEARCH
 %files -n python3-%{name}-openmpi
 %license LICENSE
 %{python3_sitearch}/openmpi/%{name}
-%{python3_sitearch}/openmpi/PyNEST-nest_%{version}-py3.?.egg-info
-%{python3_sitearch}/openmpi/Topology-nest_%{version}-py3.?.egg-info
+%{python3_sitearch}/openmpi/PyNEST-nest_%{version}-py%{python3_version}.egg-info
+%{python3_sitearch}/openmpi/Topology-nest_%{version}-py%{python3_version}.egg-info
 %endif
 
 %changelog

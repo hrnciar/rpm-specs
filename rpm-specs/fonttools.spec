@@ -77,7 +77,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{python3} -m pytest --ignore Tests/mi
 %license LICENSE
 %doc NEWS.rst README.rst
 %{python3_sitelib}/fontTools
-%{python3_sitelib}/%{name}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Sun Oct 18 16:32:27 IST 2020 Parag Nemade <pnemade AT redhat DOT com> - 4.16.1-1

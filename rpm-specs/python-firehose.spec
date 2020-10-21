@@ -66,7 +66,7 @@ chmod +x %{buildroot}/%{python3_sitelib}/firehose/parsers/gcc.py
 %files -n python3-firehose
 %doc README.rst lgpl-2.1.txt examples firehose.rng
 %{python3_sitelib}/firehose/
-%{python3_sitelib}/firehose-%{version}-py3.?.egg-info
+%{python3_sitelib}/firehose-%{version}-py%{python3_version}.egg-info
 
 
 %changelog

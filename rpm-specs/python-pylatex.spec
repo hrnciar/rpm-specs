@@ -172,7 +172,7 @@ popd
 %files -n python3-%{pypi_name}
 %license LICENSE
 %doc README.rst
-%{python3_sitelib}/%{fancy_name}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{fancy_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{pypi_name}
 
 %if %{with docs}

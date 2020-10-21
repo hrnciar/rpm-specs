@@ -44,7 +44,7 @@ rm -rf $RPM_BUILD_ROOT/%{_docdir}
 %{_bindir}/flies
 %{_bindir}/zanata
 %{python3_sitelib}/zanataclient
-%{python3_sitelib}/zanata_python_client-%{version}-py3.?.egg-info
+%{python3_sitelib}/zanata_python_client-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-7

@@ -80,7 +80,7 @@ find . -name "*pyc" -exec rm -f '{}' \;
 %license LICENSE
 %doc AUTHORS.rst README.rst
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-4

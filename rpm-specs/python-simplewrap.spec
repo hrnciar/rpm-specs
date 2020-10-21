@@ -91,7 +91,7 @@ find %{buildroot}%{python3_sitearch} -name '*.so' -exec chmod 755 {} ';'
 %license LICENSE
 %doc README.rst
 %{python3_sitearch}/%{modname}
-%{python3_sitearch}/%{modname}-%{version}-py3.?.egg-info
+%{python3_sitearch}/%{modname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
 * Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-8

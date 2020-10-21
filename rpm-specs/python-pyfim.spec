@@ -79,7 +79,7 @@ sed -i "s/version=.*/version='6.28',/" setup.py
 %files -n python3-%{pypi_name}
 # All sub directories contain this file
 %license pyfim/doc/mit-license.txt
-%{python3_sitearch}/fim-%{version}-py3.?.egg-info
+%{python3_sitearch}/fim-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/fim.cpython-%{python3_version_nodots}*.so
 
 %changelog

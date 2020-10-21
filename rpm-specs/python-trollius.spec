@@ -62,7 +62,7 @@ Linux, Mac OS X, FreeBSD and OpenIndiana.
 %dir %{python3_sitelib}/trollius
 %{python3_sitelib}/trollius/*.py
 %{python3_sitelib}/trollius/__pycache__
-%{python3_sitelib}/%{pypiname}-%{version}-py3.?.egg-info/
+%{python3_sitelib}/%{pypiname}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
 * Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-17
